@@ -1,0 +1,35 @@
+---
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          test -f requirements-dev.txt && pip install -r requirements-dev.txt
+      - name: Run pytest
+        run: |
+          pytest --cov=. --cov-report=xml tests/
+      - name: Report coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          env_vars: OS,PYTHON
+          fail_ci_if_error: false
+          verbose: true

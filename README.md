@@ -1,0 +1,1 @@
+[![codecov](https://codecov.io/gh/rcbop/ecr-cleaner/branch/main/graph/badge.svg?token=YRZXU7YNM8)](https://codecov.io/gh/rcbop/ecr-cleaner)
